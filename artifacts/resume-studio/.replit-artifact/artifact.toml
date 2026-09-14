@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Resume Studio"
+description = "A one-page resume builder with ten editable templates, live preview, local saving, and print-to-PDF support for job seekers who want a polished resume without design software."
+version = "1.0.0"
+id = "artifacts/resume-studio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20113
+
+[services.development]
+run = "pnpm --filter @workspace/resume-studio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/resume-studio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/resume-studio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20113"
+BASE_PATH = "/"
